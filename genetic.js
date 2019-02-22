@@ -1,11 +1,13 @@
+const fs=require('fs');
+
 const initial_population = 25;
 const children_count = 10; // 20 in total
 const gene_count = 3;
 let initial_population_array = [];
 let children_array = [];
 let x_range_max = 2;
-let y_range_max = 2;
-let z_range_max = 2;
+let y_range_max = 3;
+let z_range_max = 3;
 
 
 const fitness_function_equation = (x, y, z) => {
@@ -13,17 +15,17 @@ const fitness_function_equation = (x, y, z) => {
 }
 
 function random_number_for_x(){
-    var random = Math.round(Math.random()*4) - 2;
+    var random = (Math.random()*4) - 2;
     return random;
 }
 
 function random_number_for_y(){
-    var random = Math.round(Math.random()*4) - 1;
+    var random = (Math.random()*4) - 1;
     return random;
 }
 
 function random_number_for_z(){
-    var random = Math.round(Math.random()*3);
+    var random = (Math.random()*3);
     return random;
 }
 
@@ -114,29 +116,29 @@ const mutation = (array) => {
             let gene_value = random_number_for_gene_mutation();
             switch(gene_value) {
                 case 0:
-                if(array[i][gene_value] + 1 > x_range_max){
-                    array[i][gene_value] = array[i][gene_value] - 1
+                if(array[i][gene_value] + 0.05 > x_range_max){
+                    array[i][gene_value] = array[i][gene_value] - 0.05
                     console.log("minus", gene_value)
                 }else {
-                    array[i][gene_value] = array[i][gene_value] + 1
+                    array[i][gene_value] = array[i][gene_value] + 0.05
                     console.log("plus", gene_value)
                 }
                 break;
                 case 1:
-                if(array[i][gene_value] + 1 > y_range_max){
-                    array[i][gene_value] = array[i][gene_value] - 1
+                if(array[i][gene_value] + 0.05 > y_range_max){
+                    array[i][gene_value] = array[i][gene_value] - 0.05
                     console.log("minus", gene_value)
                 }else {
-                    array[i][gene_value] = array[i][gene_value] + 1
+                    array[i][gene_value] = array[i][gene_value] + 0.05
                     console.log("plus", gene_value)
                 }
                 break;
                 case 2:
-                if(array[i][gene_value] + 1 > z_range_max){
-                    array[i][gene_value] = array[i][gene_value] - 1
+                if(array[i][gene_value] + 0.05 > z_range_max){
+                    array[i][gene_value] = array[i][gene_value] - 0.05
                     console.log("minus", gene_value)
                 }else {
-                    array[i][gene_value] = array[i][gene_value] + 1
+                    array[i][gene_value] = array[i][gene_value] + 0.05
                     console.log("plus", gene_value)
                 }
                 break;
@@ -156,12 +158,13 @@ const fitness_function_calculator = (array) => {
     return array;
 }
 
+
 initial_population_array = population();
+// for(var i=0; i<50; i++){
+// }
 children_array = crossover(initial_population_array);
 children_array = mutation(children_array);
-// console.log("mutation", mutation(children_array))
 final_population = initial_population_array.concat(mutation(children_array))
-// console.log(final_population, final_population.length);
 final_population_with_fitness_value =  fitness_function_calculator(final_population)
 // console.log(final_population_with_fitness_value)
 final_population_with_fitness_value.sort((a, b) => {
@@ -172,5 +175,12 @@ final_population_with_fitness_value.sort((a, b) => {
         return (a[3] < b[3]) ? -1 : 1;
     }
 })
+
+// for(var i=0;  )
+
+fs.writeFile('output'+'.txt', final_population_with_fitness_value, err => {
+    console.log(err)
+})
+// initial_population_array = final_population;
 
 console.log(final_population_with_fitness_value);
