@@ -44,9 +44,9 @@ function random_number_for_gene_mutation(){
     return random;
 }
 
-const population = () => { // calculate initial population
+const population = (initial_population_size) => { // calculate initial population
     let array = [];
-    for(let i=0; i<initial_population; i++){
+    for(let i=0; i<initial_population_size; i++){
         array[i] = [];
         for(let j=0; j<gene_count; j++){
             switch(j) {
@@ -80,10 +80,10 @@ const check_repeated_chromosome = (array, chromosome_added_value) => {
     return array.includes(chromosome_added_value);
 }
 
-const crossover = (array) => {
+const crossover = (array, children_population_count) => {
     let children_array = [];
     let chromosome_ledger = [];
-    for(let i=0; i<children_count; i++){
+    for(let i=0; i<children_population_count; i++){
         let chromosome1 = random_number_for_crossover();
         let chromosome2 = random_number_for_crossover();
         console.log("Chromosomes", chromosome1, chromosome2);
@@ -159,10 +159,8 @@ const fitness_function_calculator = (array) => {
 }
 
 
-initial_population_array = population();
-// for(var i=0; i<50; i++){
-// }
-children_array = crossover(initial_population_array);
+initial_population_array = population(initial_population); // Initial Parent Selection
+children_array = crossover(initial_population_array, children_count); // Produce Children Array
 children_array = mutation(children_array);
 final_population = initial_population_array.concat(mutation(children_array))
 final_population_with_fitness_value =  fitness_function_calculator(final_population)
